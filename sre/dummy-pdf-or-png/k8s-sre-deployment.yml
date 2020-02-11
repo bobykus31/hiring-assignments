@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-pdf-or-png
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dummy-pdf-or-png
+  template:
+    metadata:
+      labels:
+        app: dummy-pdf-or-png 
+    spec:
+      containers:
+      - name: dummy-pdf-or-png
+        image: bobykus/dummy-pdf-or-png:1.0.2 
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3030
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3030
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 15
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 3030
+            scheme: HTTP
+          initialDelaySeconds: 5
+          timeoutSeconds: 1   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy-pdf-or-png-service
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 3040
+    targetPort: 3030
+  selector:
+    app: dummy-pdf-or-png
