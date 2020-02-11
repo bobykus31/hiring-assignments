@@ -2,6 +2,8 @@
 Pseudorandomly returns either a pdf or png file.
 
 Responds to GET requests on "/" port 3040.
+Prometheus  metrics  available on /metrics URL
+
 
 Dockerfile multi-stage takes care of building, so to get started you run the following commands in this directory, assuming you have Docker installed.
 
