@@ -1,0 +1,31 @@
+docker build -t dummy-pdf-or-png-proxy .
+docker tag dummy-pdf-or-png-proxy bobykus/dummy-pdf-or-png-proxy:1.0.1
+docker push bobykus/dummy-pdf-or-png-proxy:1.0.1
+
+kubectl get pods | awk '{print "kubectl delete pod "$1}'
+
+kubectl delete service dummy-pdf-or-png-proxy-service
+kubectl delete deployment  dummy-pdf-or-png-proxy
+minikube stop
+minikube delete
+minikube start
+
+kubectl apply -f k8s-sre-deployment.yml
+
+---
+https://docs.timber.io/setup/platforms/kubernetes#automatic-context
+
+   kubectl create namespace logging
+   kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-service-account.yaml
+   kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role.yaml
+   kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
+
+   kubectl create -f https://gist.githubusercontent.com/binarylogic/951ea32ed462933fa70c439f9cab06f3/raw/fe6b761770f1ccd9b44c96421d4892b8e96927d6/fluent-bit-configmap.yaml
+
+   kubectl create -f  fluent-bit-ds.yaml
+---
+
+kubectl get pods
+kubectl get services
+minikube service  dummy-pdf-or-png-proxy-service --url
+
