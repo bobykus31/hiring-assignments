@@ -73,6 +73,9 @@ func readinessHandler(w http.ResponseWriter, r *http.Request) {
 
 func (p *proxy) ServeHTTP(wr http.ResponseWriter, req *http.Request) {
 
+	req.URL.Scheme = "http"
+	req.URL.Host = "dummy-pdf-or-png-service:3040"
+
 	log.Println(req.RemoteAddr, " ", req.Method, " ", req.URL)
 
 	if req.URL.Scheme != "http" && req.URL.Scheme != "https" {
@@ -103,11 +106,14 @@ func (p *proxy) ServeHTTP(wr http.ResponseWriter, req *http.Request) {
 
 	log.Println(req.RemoteAddr, " ", resp.Status)
 
+	log.Println(resp.Header)
+
 	delHopHeaders(resp.Header)
 
 	copyHeader(wr.Header(), resp.Header)
 	wr.WriteHeader(resp.StatusCode)
 	io.Copy(wr, resp.Body)
+
 }
 
 func main() {
