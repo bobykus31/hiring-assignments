@@ -2,10 +2,15 @@
 
 
 Takes HTTP GET requests with a random ID (/1, /529852, etc.), requests a document from the microservice we have provided in the dummy-pdf-or-png subdirectory of this repository, and then returns the document with correct mime-type.
+
 Provides an endpoint for health monitoring /health
+
 Has a Kubernetes Manifest dummy-pdf-or-png-proxy-deployment.yml
+
 Has Readiness and LivenessChecks.
+
 Has a Dockerfile.
+
 The service log relevant information
 ```
 kubectl logs --namespace=dummy-pdf-or-png dummy-pdf-or-png-proxy-6664d4cbb-hd6dw
