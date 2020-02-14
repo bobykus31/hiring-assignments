@@ -24,4 +24,3 @@ http_requests_total{code="200",method="get"} 2
 version{version="v0.1.0"} 0
 ```
 
-
